@@ -124,30 +124,21 @@ class ModelHelper
      */
     public function getIndices(Model $model, $indexName = null)
     {
-        $indicesName = $this->buildIndices($model, $indexName);
+        $indicesName = [];
+
+        if ($indexName !== null) {
+            $indicesName[] = $indexName;
+        } elseif (property_exists($model, 'indices') && is_array($model->indices)) {
+            $indicesName = $model->indices;
+        } else {
+            $indicesName[] = $this->getIndexName($model);
+        }
 
         $indices = array_map(function ($index_name) use ($model) {
             return $this->algolia->initIndex($this->getFinalIndexName($model, $index_name));
         }, $indicesName);
 
         return $indices;
-    }
-
-    protected function buildIndices(Model $model, $indexName = null)
-    {
-        if ($indexName !== null) {
-            return [$indexName];
-        }
-
-        if (method_exists($model, 'indices') && is_array($model->indices())) {
-            return $model->indices();
-        }
-
-        if (property_exists($model, 'indices') && is_array($model->indices)) {
-            return $model->indices;
-        }
-
-        return [$this->getIndexName($model)];
     }
 
     public function getIndicesTmp(Model $model)
