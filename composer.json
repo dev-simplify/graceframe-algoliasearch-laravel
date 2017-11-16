@@ -1,6 +1,6 @@
 {
-    "name": "algolia/algoliasearch-laravel",
-    "description": "Laravel Algolia extension",
+    "name": "dev-simplify/graceframe-algoliasearch-laravel",
+    "description": "Laravel Algolia extension customized for graceframe.com",
     "license": "MIT",
     "keywords": [
         "laravel",
